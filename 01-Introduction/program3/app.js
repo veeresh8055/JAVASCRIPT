@@ -1,2 +1,3 @@
-console.log("Hello JavaScript..!");
+console.log(a);
+let a ;
 
