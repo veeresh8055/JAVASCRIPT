@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  color: #f7f7f7;
+  transition: background-color 0.3s ease, color 0.2s ease;
+}
+
+body.light-ui {
+  color: #101010;
+}
+
+.top-bar {
+  width: 90%;
+  max-width: 1100px;
+  margin-top: 16px;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  padding-top: 14px;
+  padding-right: 16px;
+  padding-bottom: 14px;
+  padding-left: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background-color: rgba(0, 0, 0, 0.22);
+}
+
+.brand {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.github-link svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.main-content {
+  width: 90%;
+  max-width: 1100px;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-panel {
+  width: 90%;
+  max-width: 420px;
+  padding-top: 24px;
+  padding-right: 22px;
+  padding-bottom: 24px;
+  padding-left: 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background-color: rgba(0, 0, 0, 0.22);
+  text-align: center;
+}
+
+.hex-code {
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 16px;
+  margin-left: 0;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#copyBtn {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.12);
+  color: inherit;
+  border-radius: 999px;
+  padding-top: 9px;
+  padding-right: 18px;
+  padding-bottom: 9px;
+  padding-left: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.14s ease;
+}
+
+#copyBtn:hover {
+  transform: translateY(-2px);
+}
+
+#copyBtn:active {
+  transform: translateY(0);
+}
+
+body.light-ui .top-bar,
+body.light-ui .color-panel {
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+body.light-ui #copyBtn {
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 600px) {
+  .brand {
+    font-size: 22px;
+  }
+
+  .hex-code {
+    font-size: 36px;
+  }
+}

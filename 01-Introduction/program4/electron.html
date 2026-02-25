@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smooth Atom Cursor</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #020617; 
+      overflow: hidden;
+      cursor: none; /* Hide default cursor */
+    }
+
+    #nucleus {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      /* background: radial-gradient(circle, #ff333391, #9900007a) ; */
+      background-color: none;
+      border-radius: 100%;
+      border: 0px solid wheat;
+      box-shadow: 0 0 20px #fff;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      /* We remove the manual top/left update in CSS and use transform for GPU speed */
+      top: 0;
+      left: 0;
+      will-change: transform;
+    }
+
+    .electron {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      will-change: transform;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nucleus"></div>
+  <div id="particle-container"></div>
+
+  <script>
+    const nucleus = document.getElementById('nucleus');
+    const container = document.getElementById('particle-container');
+
+    // Actual mouse position
+    let targetMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    // "Smooth" mouse position (the Virtual Mouse)
+    let smoothMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    
+    window.addEventListener('mousemove', (e) => {
+      targetMouse.x = e.clientX;
+      targetMouse.y = e.clientY;
+    });
+
+    const electronConfigs = [
+      { color: '#3b82f6', speed: 0.10, rx: 90, ry: 40, ang: 0 },
+      { color: '#a855f7', speed: 0.13, rx: 40, ry: 90, ang: 2 },
+      { color: '#2dd4bf', speed: 0.16, rx: 70, ry: 70, ang: 4 }
+    ];
+
+    const electrons = electronConfigs.map(config => {
+      const el = document.createElement('div');
+      el.className = 'electron';
+      el.style.background = `radial-gradient(circle at 30% 30%, ${config.color}, #000)`;
+      el.style.boxShadow = `0 0 12px ${config.color}`;
+      container.appendChild(el);
+      return { ...config, el, x: smoothMouse.x, y: smoothMouse.y };
+    });
+
+    function animate() {
+      // 1. SMOOTH THE MOUSE MOVEMENT
+      // The nucleus follows the actual mouse with 15% interpolation per frame
+      const lerpAmount = 0.15; 
+      smoothMouse.x += (targetMouse.x - smoothMouse.x) * lerpAmount;
+      smoothMouse.y += (targetMouse.y - smoothMouse.y) * lerpAmount;
+
+      // Update Nucleus position
+      nucleus.style.transform = `translate(${smoothMouse.x}px, ${smoothMouse.y}px) translate(-50%, -50%)`;
+
+      // 2. ANIMATE ELECTRONS RELATIVE TO SMOOTH MOUSE
+      electrons.forEach(p => {
+        p.ang += p.speed;
+
+        // Calculate Orbit around the smoothed mouse
+        const orbitX = smoothMouse.x + Math.cos(p.ang) * p.rx;
+        const orbitY = smoothMouse.y + Math.sin(p.ang) * p.ry;
+
+        // Electrons follow their orbit paths with their own easing
+        p.x += (orbitX - p.x) * 0.2;
+        p.y += (orbitY - p.y) * 0.2;
+
+        p.el.style.transform = `translate(${p.x - 4}px, ${p.y - 4}px)`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
