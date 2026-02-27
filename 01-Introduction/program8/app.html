@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes IMP</title>
+</head>
+<body>
+    
+
+    <script>
+        console.log([] + ![]); // true + false ---> false ;
+
+        console.log([1,2] + [3,4,5]); // --> [1,23,4,5] 
+
+        console.log([] + {}); // [object Object]
+        
+        console.log([] + !{}); // true + false --> false 
+
+        console.log('sa' + 23);// sa23
+
+        console.log( undefined ); // --> undefined  
+        console.log( !undefined ); // --> true 
+
+        // console.log(''+[]); //-->   [Empty space ]
+        console.log(''); //--> 
+
+        console.log([]); //-->   []
+        console.log({}); //-->   {}
+        console.log(!{}); //-->  false 
+
+        console.log({1:12,2:'hii'} + {2:89, 3:'veeresh'}); //-->   [object Object][object Object]
+
+        console.log([1,23,4] + ['hello' , 23,true ]); // 1,23,4hello,23,true
+        console.log(typeof([1,23,4] + ['hello' , 23,true ])) // string
+
+        let arr= [1,2,"srr" , true ];
+        let obj = { name : 'veeresh' , age : 21}
+        console.log(typeof(arr))// --> object
+        console.log(typeof(obj))// --> object
+
+        console.log(typeof(NaN)) // --> number 
+        console.log(typeof(veresh)) // --> undefined
+        
+        
+        console.log(typeof(true)) // --> boolean
+        console.log(typeof('Veeresh')) // --> string
+        console.log(typeof(hello)) // --> undefined
+
+        </script> 
+</body>
+</html>
