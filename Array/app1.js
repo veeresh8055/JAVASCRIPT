@@ -10,6 +10,8 @@ console.log(arr2);
 let arr3 = new Array("5");
 console.log(arr3); //['5']
 
+// ARRARY MUTATING METHODS 
+
 // when we perform function on them it changes the original array also
 let arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 arr4.pop();
@@ -55,3 +57,51 @@ console.log(arr4.sort((a, b) => b - a));
 console.log(arr1.reverse()); //[ true, 'java', 1 ]
 
 console.log(strArray.reverse()); //[ 'veeresh', 'naveen', 'manu', 'kiran', 'arun' ]
+
+
+
+// fill()
+
+
+//copywithin(target , startIn , endIn)
+arr3 = [10,20,30,40,50]
+arr3.copyWithin(1)
+console.log(arr3)//[ 10, 10, 20, 30, 40 ]
+
+arr3 = [10,20,30,40,50]
+arr3.copyWithin(2,2)
+console.log(arr3) // [10,20,30,40,50]
+
+arr3 = [10,20,30,40,50]
+arr3.copyWithin(2,0,-1)
+console.log(arr3)//[ 10, 20, 10, 20, 30 ]
+
+// Array LOOPS [for..of and for..in]
+// for of for --> value 
+// for in for --> index
+// ---FOR OF--
+arr = [10,20,30,40,50]
+for(let i of arr){
+    console.log(i)
+}
+// 10
+// 20
+// 30
+// 40
+// 50
+
+//---FOR IN--
+for(let i in arr){
+    console.log(i)
+}
+// 0
+// 1
+// 2
+// 3
+// 4
+
+
+let str = 'javascript'
+for(let i of str){
+    console.log(i)
+}

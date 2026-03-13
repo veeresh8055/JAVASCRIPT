@@ -42,3 +42,4 @@ console.log(true.toString())//true
 
 console.log(null.toString())// error [ Cannot read properties of null]
 
+
