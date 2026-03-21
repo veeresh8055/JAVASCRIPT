@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        background-color: #554e4e6b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: whitesmoke;
+        font-family:
+          "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+      .main {
+        border: 1px solid white;
+        background-color: rgba(255, 255, 255, 0.458);
+        color: #161616;
+        padding: 10px 20px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .main .container {
+        display: flex;
+        align-items: center;
+
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 20px;
+        border: 1px solid #595858f9;
+        border-radius: 10px;
+      }
+      .container button {
+        padding: 10px 20px;
+        border-radius: 8px;
+        outline: none;
+        border: none;
+        background-color: rgb(47, 255, 182);
+        cursor: pointer;
+      }
+     
+    button:active {
+          scale: .95;
+        transition: all .5s;
+        background-color: rgb(47, 255, 182,.7);
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <h2>OTP Generator</h2>
+      <div class="container">
+        <p class="otpdisp">4321</p>
+
+        <button>Generate OTP</button>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
