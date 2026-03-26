@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Music Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>SONGS LIST</h2>
+
+    <div class="player-card">
+      <div class="album-art" aria-hidden="true"></div>
+
+      <div class="now-playing">
+        <p id="currentTitle">Select a song</p>
+        <p id="currentMeta">Ready to play</p>
+      </div>
+
+      <div class="controls">
+        <div class="control-buttons">
+          <button id="prevBtn" type="button" aria-label="Previous song">&#9198;</button>
+          <button id="playPauseBtn" type="button" aria-label="Play or pause">Play</button>
+          <button id="nextBtn" type="button" aria-label="Next song">&#9197;</button>
+        </div>
+
+        <div class="seek-row">
+          <span id="currentTime">0:00</span>
+          <input id="seekBar" type="range" min="0" max="100" value="0" step="1" />
+          <span id="duration">0:00</span>
+        </div>
+
+        <div class="volume-row">
+          <span>Low</span>
+          <input id="volumeBar" type="range" min="0" max="100" value="70" step="1" />
+          <span>High</span>
+        </div>
+      </div>
+
+      <div class="playlist" id="playlist">
+        <div class="song">Loading songs...</div>
+      </div>
+    </div>
+
+    <div class="footer-player">
+      <p id="statusText">Idle</p>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="metadata"></audio>
+  <script src="app.js"></script>
+</body>
+</html>

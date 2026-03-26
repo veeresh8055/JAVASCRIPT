@@ -1,0 +1,220 @@
+:root {
+  --bg-main: #070b14;
+  --bg-secondary: #101827;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-strong: rgba(255, 255, 255, 0.14);
+  --border: rgba(255, 255, 255, 0.25);
+  --text: #eef3ff;
+  --muted: #b5c2df;
+  --accent: #55c2ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(85, 194, 255, 0.25), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(122, 92, 255, 0.2), transparent 30%),
+    linear-gradient(160deg, var(--bg-main), var(--bg-secondary));
+  padding: 20px;
+}
+
+.container {
+  width: min(420px, 100%);
+  padding: 28px;
+  text-align: center;
+  border-radius: 22px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+h2 {
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.now-playing {
+  margin-bottom: 14px;
+}
+
+#currentTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+#currentMeta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.player-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(4, 10, 24, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+}
+
+.album-art {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #9ee7ff, #45a3d9 45%, #1f3f7f 100%);
+  box-shadow: 0 10px 30px rgba(56, 126, 255, 0.35);
+}
+
+.controls {
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin: 4px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.controls button:hover {
+  background: rgba(85, 194, 255, 0.22);
+  border-color: rgba(85, 194, 255, 0.55);
+}
+
+.controls input {
+  width: 100%;
+  margin-top: 10px;
+  accent-color: var(--accent);
+}
+
+.seek-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+}
+
+.seek-row span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.volume-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.volume-row span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.playlist {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.song {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 10px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font: inherit;
+}
+
+.song:hover {
+  color: var(--text);
+  background: rgba(85, 194, 255, 0.16);
+}
+
+.song.active {
+  color: var(--text);
+  background: rgba(85, 194, 255, 0.26);
+  border-color: rgba(85, 194, 255, 0.55);
+}
+
+.footer-player {
+  height: 62px;
+  margin-top: 18px;
+  border-radius: 14px;
+  background: var(--glass-strong);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+}
+
+#statusText {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .container {
+    padding: 20px 14px;
+    border-radius: 16px;
+  }
+
+  .player-card {
+    padding: 14px;
+  }
+
+  .controls button {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .playlist {
+    max-height: 180px;
+  }
+}
