@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>classList </title>
+
+<style>
+  .red{
+    background-color: tomato;
+    
+  }
+  .green{
+    color: rgb(84, 209, 84);
+  }
+  .font{
+
+    font-size: 60px;
+  }
+  .padding{
+    padding: 10px 20px;
+  }
+
+  .dark{
+    background-color: #161616;
+    color: #fdfdfd;
+  }
+  button{
+    padding: 10px 15px;
+    border-radius: 5px;
+    outline: none;
+    background-color: rgb(132, 234, 132);
+    color: rgb(71, 66, 66);
+    border: none;
+  }
+
+</style>
+</head>
+<body>
+     <h1>hello javascript</h1>
+
+     <button>toggle</button>
+     <script>
+
+        // impo
+        //  element.classList.add("className");
+        //  element.classList.remove("className");
+        //  element.classList.toggle("className");
+    
+        //selecting element
+        let h1 = document.querySelector('h1') 
+        
+        //adding class to the element
+        h1.classList.add("red")
+        h1.classList.add("green")
+        h1.classList.add("font")
+        h1.classList.add("padding")
+
+        //removing the class to the element 
+        h1.classList.remove('green')
+
+       // toggleling the the button
+       let btn = document.querySelector('button')
+       let body = document.body
+       btn.addEventListener('click',()=>{
+        body.classList.toggle('dark');
+       })
+
+
+     </script>
+
+</body>
+</html>

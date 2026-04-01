@@ -2,7 +2,9 @@ let body = document.body;
 
 let number = Number(prompt("Enter the number"));
 
-if(!number.isNan){
+// console.log(Number.isNaN(number))
+
+if(!Number.isNaN(number)){
 
     let h4 = document.createElement('h3');
     h4.textContent = ` tables of ${number}`;
@@ -14,5 +16,7 @@ if(!number.isNan){
         body.appendChild(p)
     }
 }else{
-    console.log("eneter valid number ")
+    alert("Enter a valid number ")
 }
+
+console.log(0.1 + 0.2 === 0.3)
