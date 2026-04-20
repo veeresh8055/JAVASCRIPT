@@ -3,20 +3,13 @@
 ## 1.queryOperator
 
 * $eq --> euqals 
-
- * $ne --> notequals
- 
- * $lt --> less than
- 
- * $gt --> greater than
-  
- * $lte--> less than or equal to 
-  
- * $gte--> greater than or eualto
-  
- * $in --> in
-  
- * $nin--> not in
+* $ne --> notequals
+* $lt --> less than
+* $gt --> greater than
+* $lte--> less than or equal to 
+* $gte--> greater than or eualto
+* $in --> in
+* $nin--> not in
 
 ## questions
 
