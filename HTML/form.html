@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 5rem 0rem;
+        font-family: cursive;
+      }
+      .container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-family: fantasy;
+        font-weight: 200;
+      }
+      .main {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        /* background-color: #d1d1d1; */
+        border: 1px solid black;
+        border-radius: 20px;
+        padding: 1rem 2rem;
+        /* height: 100%; */
+        width: 80%;
+      }
+      .left {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        /* border: 1px solid green; */
+        padding: 1rem;
+        gap: 2rem;
+        width: 50%;
+        height: 100%;
+      }
+      .personal {
+        width: 100%;
+        border: 1px solid black;
+        padding: 1.5rem;
+        border-radius: 20px;
+        background-color: #e2e2e2;
+      }
+
+      label {
+        width: 50%;
+        font-size: 20px;
+      }
+      input {
+        background-color: #fdfdfd;
+        border-radius: 10px;
+        padding: 2px;
+        width: 50%;
+      }
+      .content {
+        width: 100%;
+        border: 1px solid black;
+        padding: 1.5rem;
+        border-radius: 10px;
+        background-color: #e2e2e2;
+      }
+      h2 {
+        margin-bottom: 1rem;
+        font-family: monospace;
+         background-color: #e2e2e2;
+        /* background-color: #fdfdfd;   */
+        border-bottom: 1px solid black;
+    }
+      .box {
+        display: flex;
+        margin-bottom: 0.5rem;
+      }
+      .right {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .contact {
+        width: 90%;
+        border: 1px solid black;
+        padding: 1.5rem;
+        background-color: #e2e2e2;
+
+        border-radius: 10px;
+      }
+      .professional {
+        background-color: #e2e2e2;
+        width: 90%;
+        border: 1px solid black;
+        padding: 1.5rem;
+        border-radius: 10px;
+      }
+      .emergency {
+        background-color: #e2e2e2;
+        width: 90%;
+        border: 1px solid black;
+        padding: 1.5rem;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Emplyee Information</h1>
+
+      <div class="main">
+        <div class="left">
+          <div class="personal">
+            <h2>Personal Details</h2>
+
+            <form>
+              <div class="box">
+                <label for="">Name</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">SurName</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Middle name</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Father's Name</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Mothers Name</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Birth Place</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Born Date</label>
+                <input type="date" />
+              </div>
+              <div class="box">
+                <label for="gender">Gender</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Driving Licence</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Maritial Status</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Nationality</label>
+                <input type="text" />
+              </div>
+              <div class="box">
+                <label for="">Blood Group</label>
+                <input type="text" />
+              </div>
+            </form>
+          </div>
+
+          <div class="content">
+            <div class="box">
+              <label for="">No. of department emplyee</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">No. of department emplyee</label>
+              <input type="text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="contact">
+            <h2>Contact Information</h2>
+            <div class="box">
+              <label for=""> Home Address</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for=""> Home Number</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for=""> Mobile Number</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for=""> Email </label>
+              <input type="email" />
+            </div>
+          </div>
+
+          <div class="professional">
+            <h2>Professional Information</h2>
+            <div class="box">
+              <label for="">Profession</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Experience</label>
+              <input type="number" />
+            </div>
+            <div class="box">
+              <label for="">School</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Department</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Hired Deparmant</label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Hiring Date</label>
+              <input type="text" />
+            </div>
+          </div>
+
+          <div class="emergency">
+            <h2>Emergency Conatct Information</h2>
+            <div class="box">
+              <label for="">Contact Name </label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Contact Adress </label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Contact PhoneNO. </label>
+              <input type="text" />
+            </div>
+            <div class="box">
+              <label for="">Contact Email </label>
+              <input type="email" />
+            </div>
+            <div class="box">
+              <label for="">Relation </label>
+              <input type="email" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

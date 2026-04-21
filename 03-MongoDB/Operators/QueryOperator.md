@@ -29,3 +29,6 @@
 4.display emp details of 1600 or 3000 or 5000
 
  db.emp.find({sal:{$in:[1600,3000,5000]}})
+```
+
+hello <span>[veresh](https://veeresh.in)</span>
