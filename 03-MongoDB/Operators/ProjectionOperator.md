@@ -1,5 +1,7 @@
 # Projection Operator
 projection operator are we use  as second arg in find method 
+
+##  Queries 
 ```Javascript
 //1.display ename and job of a employee job is salesman
 db.emp.find({job:"salesman"},{ename:1,job:1,_id:0})
