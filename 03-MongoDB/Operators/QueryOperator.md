@@ -20,7 +20,7 @@
 
 2.display emp details expect salesman
  
- db.emp.find({job:{$ne:""salesman}})
+ db.emp.find({job:{$ne:"salesman"}})
 
 3.display emp details whos salary is greater than 2000
  
@@ -31,4 +31,3 @@
  db.emp.find({sal:{$in:[1600,3000,5000]}})
 ```
 
-hello <span>[veresh](https://veeresh.in)</span>
