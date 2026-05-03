@@ -203,4 +203,166 @@ this twelve bytes are divided into 3 types
 
 * on empty collection returns 'null' ---* it return empty blank space 
 
+## Cursors
 
+### sort()
+```java
+```
+
+### skip(val)
+```java
+```
+
+### limit(val)
+```java
+limit method is used to limit the no. of documents to be display in the output 
+eg:
+ db.emp.find({},{ename:1,_id:0}).limit(2);
+
+* we can use the combination of all above three methods depends on our requirements 
+
+eg:
+ db.emp.find({},{ename:1,sal:1,_id:0}).sort({sal:1}).skip(2).limit(2)
+
+```
+### count()
+```java
+it returrns the no. of documents present in the collection or the no. of documents or satisfying the specified the condition.
+
+eg:
+//count all the document  in the emp collection
+db.emp.find().count();//14 
+
+
+```
+### forEach()
+```java 
+if we want to return total no. of documents in the collection or to print the output in json format  we will use forEach 
+it accepts on callback function 
+
+//display documents in json format
+db.emp.find().forEach(printjson)
+   //or 
+db.emp.find().forEach((e)=>print(e))
+```
+# 
+#
+
+# UPDATE OPERATORS
+ * we have two method to perform updatation 
+ * 1.updateOne( {condition} , {updation} )
+ * 2.updateMany( {condition} , {updation} )
+
+## types of update operator
+ * $inc
+ * $max
+ * $min
+ * $
+
+
+### $inc
+```java
+used to increase the specified value by adding it to the current value 
+it works only on numbers
+it accepts positive or negative numbers 
+
+//increase sal of smith by 1000 
+db.emp.find({ename:smith},{$inc:{sal:1000}})
+
+//decrease sal of smith by 1000 
+db.emp.find({ename:smith},{$inc:{sal:-1000}})
+
+```
+## NOTE : common cases for all update Operator
+### case 1:
+``` 
+when the condition is true but the field is not avilabel in document then update operator will create  new field with specified value in that particular documents based on the  specified condition
+
+//cond is matching but  field in not avilab
+updateMAny({ename:"smith"},{$inc:{salary : 1000}})
+```
+### case 2:
+```java
+when the condition is false but we have passing the third argument as '{upsert:true}'
+then update operator will create new document with the specified condition and updation and insert at the last in the collection 
+
+//condition false but using {upsert:true} as 3rd argument 
+db.emp.updateMany({ename:"kiran"},{$inc:{sal:1000}},{upsert:true})
+
+* add new doc with {ename:"kiran" ,sal:1000}
+```
+
+### $max
+```java
+max operator updates the value to the maximum value only when te specified value is greater than current value otherwise it will do nothing 
+
+
+specified value > curr value
+// smith sal is maximum 1000 if less make max other wise do nothing 
+db.emp.updateMany({ename:"smith"},{$max:{sal:1000}})
+
+* it works only on nummbers 
+```
+### $min
+```java 
+it updates value to the minimum only when the specified value is less than current value 
+
+* min op works only on numbers 
+
+specified value <  current value 
+// smith sal is minimum 800 if greater make min other wise do nothing 
+db.emp.find({ename:"smith"},{$min:{sal:800}})
+
+```
+
+### $mul
+```java 
+this operator is used to multiply the value of field with specifed number 
+it also works on number data types 
+
+// increate smith sal * 2 
+db.emp.updateMany({ename:"smith"},{$mul:{sal:2}})
+
+NOTE : only the mul operator whic sets the value of field  to 0 when the field in not avilable in the documnets 
+
+//condition false
+db.emp.updateMany({ename:"kiran"},{$mul:{sal:2}})
+-> * add new doc with {ename:"kiran" ,sal:0}
+
+
+```
+
+### $set
+```java
+it is  most imp recommended operator update operator 
+it works with all kind of data types
+
+eg:
+//update smith job as a SALESMAN
+db.emp.updateMany({ename:"smith"},{$set:{job:"salesman"}})
+
+//update smith sal to 1500 and depatment no 20 
+db.emp.updateOne({ename:"smith"},{$set:{sal:1500 , deptno:20}})
+
+```
+### $unset 
+```java 
+
+this operator is used to delete the field fom the documents 
+do delete field  of doc we have to pass { feildname:"" }
+
+// delete salary field  of smith 
+db.emp.updateMany({ename:"smith"},{$unset:{salary:""}})
+```
+### $rename
+```java
+this operator is used to rename the fields 
+to rename the field name we have to pass {oldfieldName:"newfieldName"}
+
+//rename the job into designation on emp collection 
+db.emp.updateMany({},{$rename:{job:"designation"}})
+
+```
+#
+
+# SCHEMA DESIGNING 
