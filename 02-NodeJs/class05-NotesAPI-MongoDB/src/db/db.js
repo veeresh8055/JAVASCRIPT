@@ -1,26 +1,21 @@
-const mongoose = require("mongoose");
-const dns = require("node:dns");
 
-// Some networks/ISPs block SRV DNS lookups used by `mongodb+srv://` URIs.
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
+const mongoose = require("mongoose");
+const dotenv = require("dotenv")
+
+dotenv.config()
+
+const MONGODB_URL = process.env.MONGODB_CONNECTION_STRING;
 
 async function connToDB() {
-  const mongoUri =
-    process.env.MONGODB_URI ||
-    "mongodb+srv://VeereshBC:igxU8n4szyT74PDh@cluster0.jujpvdi.mongodb.net/backend";
+    mongoose.connect(
+           MONGODB_URL
+        )
+        .then(()=>{
+            console.log("✅ Connected to MongoDB");
 
-  try {
-    await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 10000,
-    });
-    console.log("DB Connected Successfully");
-  } catch (error) {
-    console.error("MongoDB connection failed:", error.message);
-    console.error(
-      "If you see 'querySrv ECONNREFUSED', switch DNS to 1.1.1.1/8.8.8.8 or use a non-SRV Atlas URI."
-    );
-    throw error;
-  }
+        })
+
+   
 }
 
 module.exports = connToDB;
