@@ -1,0 +1,12 @@
+import express from "express"
+
+import router from './routes/auth.routes.js'
+
+
+const app = express()
+app.use(express.json())
+
+app.use('/auth' , router)
+
+
+export default app ; 
