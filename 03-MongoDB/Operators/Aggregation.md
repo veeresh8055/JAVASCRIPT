@@ -143,7 +143,44 @@ db.emp.aggregate([
 
 
 //3.no. of managers in each dept 
-//4.no. of empl iin each department atleast 4 
+db.emp.aggregate([
+   {
+    $match:{
+        job:"manager"
+    }
+   },
+   {
+    $group:{
+        _id:"$deptno",
+        count:{$sum:1}
+
+    }
+   }
+])
+
+//4. no. of empl in each department atleast 4 
+
+db.emp.aggregate([
+    {
+        $group:{
+            _id:"$deptno",
+            count:{$sum:1}
+        }
+    },
+    {
+        $match:{
+            count : {$gte:4}
+        }
+    },
+    {
+       $project:{
+         deptno : "$_id",
+        count:1,
+        _id:0
+       }
+    }
+])
+
 //5.
 
 
