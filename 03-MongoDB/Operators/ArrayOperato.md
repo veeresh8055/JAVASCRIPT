@@ -87,7 +87,7 @@ db.emp.find({skils:{$size:6}},{ename:1,skils:1,_id:0})
 
 ```
 ## Cursors
-``` 
+``` java 
 //.sort(ename:1) --> ascending order
 //.limit(val)   --> limit on docs
 //.skip(vale)  --> skipping docs 
@@ -99,4 +99,6 @@ db.emp.find({skils:{$size:6}},{ename:1,skils:1,_id:0})
 
 //forEach 
 db.emp.find({},{ename:1,sal:1,_id:0}).forEach(el=>print(el))
+
 db.emp.find({},{ename:1,sal:1,_id:0}).forEach(printjson)
+```

@@ -51,7 +51,7 @@ db.bank.insertMany([{name:"SBI",branch:"BTM",a_no:123456},{name:"CANARA",branch:
 
 // create relation bt person to banks
 
-db.person.updateOne({name:"arun"},{$set:{banks:[ ObjectId('69f9bf5fbd9f6633de3682d2'),ObjectId('69f9bf5fbd9f6633de3682d3'), ObjectId('69f9bf5fbd9f6633de3682d4') ]}})
+db.person.updateOne({name:"arun"},{$set:{banks:[ ObjectId('6a0563cbc8acfdd78a3682d2'),ObjectId('6a0563cbc8acfdd78a3682d3'), ObjectId('6a0563cbc8acfdd78a3682d4') ]}})
 
 //aggregate
 db.person.aggregate([
@@ -64,6 +64,7 @@ db.person.aggregate([
         }
     }
 ])
+
 ```
 
 # Many-to-Many Relationship

@@ -420,7 +420,7 @@ o/p
 ]
 
 ```
-
+```
 10.display ename manager name and managers manager name
 db.emp.aggregate([
 {
@@ -471,7 +471,6 @@ o/p
 ```
 
 ```
-
 11.display name , sal
 if emplyee is earning less than his manager and manager is earnig less than his manager
 
@@ -521,11 +520,9 @@ $match:{
     }
 
 ])
-
 ```
 
 ```
-
 12.display name job and doj
 if emlyee jined before manager and earning more than manager but manager is earning less than his manager an joined before manager
 
@@ -576,7 +573,6 @@ $match:{
     }
 
 ])
-
 ```
 
-```
+

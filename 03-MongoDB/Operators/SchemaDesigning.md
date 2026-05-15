@@ -3,7 +3,7 @@
 ```java
 //create  USER Schema
 
-db.createCollection("user",{
+db.createCollection("user5",{
     validator:{
         $jsonSchema:{
             bsonType:"object",
@@ -40,7 +40,7 @@ phoneNO:988987
 
 //Updating the Schema
 db.runCommand({
-    collMod:"user",
+    collMod:"user4",
     validator:{
         $jsonSchema:{
             bsonType:"object",

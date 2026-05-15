@@ -37,7 +37,7 @@ db.emp.aggregate([
 ```
 ```java
 
-//2. display emp details who joined after aller and earning more than allen 
+//2. display emp details who joined after allen and earning more than allen 
 
 db.emp.aggregate([
     {

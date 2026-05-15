@@ -92,6 +92,16 @@ db.emp.aggregate([
     },
     {
         $limit:1
+    },
+    {
+       $unwind:"$emp"
+    },
+    {
+      $project:{
+        sal:"$_id",
+        name:"$emp.ename",
+        _id:0
+      }
     }
 ])
 //o/p
@@ -144,7 +154,6 @@ db.emp.aggregate([
             second_lowest_salary :[{$sort:{_id:1}},{$skip:1},{$limit:1}]
         }
     }
-
 ])
 //o/p
 [
