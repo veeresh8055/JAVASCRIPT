@@ -1,7 +1,7 @@
 ## queries
 
-```
-1.display ename , locatioon of all employess
+```isplay ename , locatioon of all employess
+1.d
 
 db.emp.aggregate([
     {

@@ -36,7 +36,7 @@ db.emp.aggregate([{$match:{sal:{$gte:3000}}}])
 // year
  db.emp.aggregate([
      {
-         $addFields:{year{$year:"$hiredate"}}
+         $addFields:{year:{$year:"$hiredate"}}
      },
      {
          $match:{year:{$in:[1982,1981]}}
