@@ -1,10 +1,16 @@
 import express from 'express'
-import authMiddleware from '../middleware/auth.middleare';
-
 const router = express.Router();
+import authMiddleware from '../middleware/auth.middleare';
+import multer from 'multer'
 
-//API with protected
-router.post('/' , authMiddleware , createPostController)
+const upload = multer({storage:multer.memoryStorage() })
+
+// api/posts [protected] {image-file}
+router.post('/' , 
+    authMiddleware , // req.user = userData 
+   upload.single("image"),
+    createPostController
+)
  
 
 
