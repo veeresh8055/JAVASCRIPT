@@ -1,13 +1,13 @@
 import express from 'express'
 import userModel from '../models/user.model.js'
 import mongoose, { mongo } from 'mongoose';
-import {register , login} from '../controller/auth.controller.js';
+import {registerController , loginController} from '../controller/auth.controller.js';
 
 
 const router = express.Router();
 
-router.post('/register',register)
+router.post('/register',registerController)
 
-router.post('/login' , login)
+router.post('/login' , loginController)
 
 export default router; 

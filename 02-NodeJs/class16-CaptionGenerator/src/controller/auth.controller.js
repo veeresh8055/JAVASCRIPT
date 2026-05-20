@@ -1,9 +1,10 @@
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken'
 import userModel from '../models/user.model.js';
+import bcrypt from 'bcryptjs';
 
 
-const register =  async (req ,res)=>{
+const registerController =  async (req ,res)=>{
     const {username , password } = req.body ;
 
     //check username and passord is not empty 
@@ -22,7 +23,7 @@ const register =  async (req ,res)=>{
     }
 
     const userCreated = await userModel.create({
-     username , password 
+     username:username , password: await bcrypt.hash(password,10) 
     })
 
     const token =  jwt.sign({id:userCreated._id} ,process.env.JWT_SECRET )
@@ -39,7 +40,7 @@ const register =  async (req ,res)=>{
 
 }
 
-const login = async (req,res)=>{
+const loginController = async (req,res)=>{
 
    const {username , password } = req.body ;
 
@@ -60,11 +61,12 @@ const login = async (req,res)=>{
    }
 
    //if userexist check password  
-   if(user.password !== password){
-    return res.status(400).json({
-        message:"invalid credentials"
+   const isPasswordValid = await bcrypt.compare(password , user.password)
+  if(!isPasswordValid){
+    return res.status(401).json({
+        message:"invalid password"
     })
-   }
+  }
 
    //if all correct give on token 
    const token = jwt.sign({id:user._id}, process.env.JWT_SECRET)
@@ -79,4 +81,4 @@ const login = async (req,res)=>{
   
 }
 
-export   {register ,login }
+export   {registerController ,loginController }

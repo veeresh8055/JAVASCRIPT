@@ -1,5 +1,5 @@
 import express from 'express'
-import router  from './routes/auth.routes.js';
+import authRoutes  from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 
 
@@ -9,7 +9,8 @@ const app = express()
 app.use(cookieParser())
 app.use(express.json())
 //auth routes 
-app.use('/auth' , router)
+app.use('/auth' , authRoutes)
+// app.use('/posts',postRoutes)
 
 
 export default app ; 
