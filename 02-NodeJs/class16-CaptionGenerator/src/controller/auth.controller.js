@@ -33,7 +33,7 @@ const registerController =  async (req ,res)=>{
 
     
     res.status(200).json({
-        message:"User Created Successfull",
+        message:"User Created Successfully",
         userCreated
     })
 
@@ -62,7 +62,8 @@ const loginController = async (req,res)=>{
 
    //if userexist check password  
    const isPasswordValid = await bcrypt.compare(password , user.password)
-  if(!isPasswordValid){
+  
+   if(!isPasswordValid){
     return res.status(401).json({
         message:"invalid password"
     })

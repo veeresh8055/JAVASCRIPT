@@ -7,10 +7,10 @@ const postSchema = new mongoose.Schema({
     caption:String ,
     user:{
         type :mongoose.Schema.Types.ObjectId,
-        ref:"user"
+        ref:"users"
     } 
 })
 
-const postModel = mongoose.model("users" , postSchema)
+const postModel = mongoose.model("post" , postSchema)
 
 export default postModel;

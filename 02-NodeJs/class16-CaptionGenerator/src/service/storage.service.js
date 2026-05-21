@@ -1,4 +1,5 @@
-import ImageKit from "@imagekit/nodejs";
+import "dotenv/config";
+import ImageKit from "imagekit";
 
 const imagekit = new ImageKit({
     publicKey :process.env.PUBLIC_KEY_IMAGEKIT,
@@ -10,7 +11,7 @@ async function uploadFile(file , filename){
 
     const response = await imagekit.upload({
         file:file, //required
-       fileName : fileName,
+       fileName : filename,
        folder : "AI_CAPTION_GENERATOR"
     })
   return response ; 
