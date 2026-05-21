@@ -6,7 +6,6 @@ import { v4 as uuid } from "uuid";
 const createPostController = async (req, res, next) => {
   const file = req.file;
 
-  console.log(`file recieved  ${file}`);
 
   if (!file) {
     return res.status(400).json({
@@ -17,10 +16,12 @@ const createPostController = async (req, res, next) => {
   const base64Image = Buffer.from(file.buffer).toString("base64");
 
   try {
+    //generating caption 
     const caption = await generateCaption(base64Image);
+    //uploading file in imagekit 
+    const result = await uploadFile( base64Image, `${uuid()}`); 
 
-    const result = await uploadFile(base64Image, `${uuid()}`);
-
+    //creating post
     const post = await postModel.create({
       image: result.url,
       caption: caption,
