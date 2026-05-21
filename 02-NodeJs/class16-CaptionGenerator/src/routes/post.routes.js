@@ -1,6 +1,7 @@
 import express from 'express'
 const router = express.Router();
-import authMiddleware from '../middleware/auth.middleare';
+import authMiddleware from '../middleware/auth.middleare.js';
+import createPostController from '../controller/post.controller.js';
 import multer from 'multer'
 
 const upload = multer({storage:multer.memoryStorage() })

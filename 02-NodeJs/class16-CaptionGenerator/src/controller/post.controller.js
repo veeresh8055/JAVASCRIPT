@@ -5,4 +5,8 @@ const createPostController = async (req, res,next)=>{
     const file = req.file ; 
 
     
+
+    
 }
+
+export default createPostController ; 
