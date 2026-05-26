@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../src/app");
 const User = require("../src/model/user.model");
 
-describe("POST /auth/register", () => {
+describe("POST /api/auth/register", () => {
   it("registers a user successfully", async () => {
     const payload = {
       username: "john_doe",
@@ -14,7 +14,7 @@ describe("POST /auth/register", () => {
       },
     };
 
-    const response = await request(app).post("/auth/register").send(payload);
+    const response = await request(app).post("/api/auth/register").send(payload);
 
     expect(response.status).toBe(201);
     expect(response.body.message).toBe("User registered successfully");
@@ -36,8 +36,8 @@ describe("POST /auth/register", () => {
       },
     };
 
-    await request(app).post("/auth/register").send(payload);
-    const response = await request(app).post("/auth/register").send(payload);
+    await request(app).post("/api/auth/register").send(payload);
+    const response = await request(app).post("/api/auth/register").send(payload);
 
     expect(response.status).toBe(409);
     expect(response.body.message).toBe("User already exists");

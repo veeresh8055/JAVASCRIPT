@@ -1,15 +1,19 @@
 const bcrypt = require("bcryptjs");
 const userModel = require("../model/user.model");
+const jwt = require("jsonwebtoken");
 
-async function register(req, res) {
+async function registerUser(req, res) {
   try {
-    const { username, email, password, fullName } = req.body;
+    const {
+      username,
+      email,
+      password,
+      fullName: { firstName, lastName },
+    } = req.body;
 
-    if (!username || !email || !password || !fullName?.firstName || !fullName?.lastName) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await userModel.findOne({
+      $or: [{ username }, { email }],
+    });
     if (existingUser) {
       return res.status(409).json({ message: "User already exists" });
     }
@@ -19,10 +23,27 @@ async function register(req, res) {
       username,
       email,
       password: hashedPassword,
-      fullName,
+      fullName: { firstName, lastName },
     });
 
-    return res.status(201).json({
+    const token = jwt.sign(
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRETE,
+      {expiresIn:'1d'}
+    );
+
+    res.cookie("token", token ,{
+      httpOnly :true,
+      secure:true,
+      maxAge:24*60*60*1000 //1day
+    });
+
+     res.status(201).json({
       message: "User registered successfully",
       user: {
         id: user._id,
@@ -31,8 +52,56 @@ async function register(req, res) {
       },
     });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+       res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 }
 
-module.exports = { register };
+async function loginUser(req, res) {
+  try {
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email }).select("+password");
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRETE,
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+}
+
+module.exports = { registerUser, loginUser };

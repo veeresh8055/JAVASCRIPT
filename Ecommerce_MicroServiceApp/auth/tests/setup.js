@@ -7,6 +7,7 @@ let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongoServer.getUri();
+  process.env.JWT_SECRETE = process.env.JWT_SECRETE || "test-secret";
   await connectToDb();
 });
 
