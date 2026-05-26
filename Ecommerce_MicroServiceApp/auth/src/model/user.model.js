@@ -1,53 +1,48 @@
-const mongoose = require('mongoose')
-const { unique } = require('next/dist/build/utils')
-
+const mongoose = require("mongoose");
 
 const addressSchema = new mongoose.Schema({
-    street:String,
-    city:String,
-    state:String,
-    zip:String,
-    country:String
-})
+  street: String,
+  city: String,
+  state: String,
+  zip: String,
+  country: String,
+});
 
-const userSchema = new mongoose.Schema({
-    username:{
-        type:String,
-        required:true
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    password:{
-        type:String
+    password: {
+      type: String,
+      required: true,
     },
-    fullName:{
-        firstName:{
-            type:String,
-            required:true
-        },
-        lastName:{
-            type:String,
-            required:true
-        }
+    fullName: {
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
     },
-    role:{
-        type:String,
-        enum:["user" , "seler"],
-        default:"user"
-
+    role: {
+      type: String,
+      enum: ["user", "seller"],
+      default: "user",
     },
-    addresses:{
-        addressSchema
+    addresses: [addressSchema],
+  },
+  { timestamps: true }
+);
 
-    }
+const userModel = mongoose.model("user", userSchema);
 
-
-    
-})
-
-const userModel = mongoose.model("user" , userSchema)
-
-module.exports = userModel ; 
+module.exports = userModel;
