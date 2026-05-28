@@ -34,16 +34,16 @@ async function registerUser(req, res) {
         role: user.role,
       },
       process.env.JWT_SECRETE,
-      {expiresIn:'1d'}
+      { expiresIn: "1d" },
     );
 
-    res.cookie("token", token ,{
-      httpOnly :true,
-      secure:true,
-      maxAge:24*60*60*1000 //1day
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000, //1day
     });
 
-     res.status(201).json({
+    res.status(201).json({
       message: "User registered successfully",
       user: {
         id: user._id,
@@ -52,7 +52,7 @@ async function registerUser(req, res) {
       },
     });
   } catch (error) {
-       res
+    res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
   }
@@ -80,7 +80,7 @@ async function loginUser(req, res) {
         role: user.role,
       },
       process.env.JWT_SECRETE,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
 
     res.cookie("token", token, {
@@ -104,4 +104,11 @@ async function loginUser(req, res) {
   }
 }
 
-module.exports = { registerUser, loginUser };
+async function getCurrentUser(req, res) {
+  return res.status(200).json({
+    message: "Current user fetched successfully",
+    user: req.user,
+  });
+}
+
+module.exports = { registerUser, loginUser, getCurrentUser };
