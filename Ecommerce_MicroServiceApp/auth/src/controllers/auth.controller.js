@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const userModel = require("../model/user.model");
 const jwt = require("jsonwebtoken");
+const redis = require('../db/redis')
 
 async function registerUser(req, res) {
   try {
@@ -111,4 +112,30 @@ async function getCurrentUser(req, res) {
   });
 }
 
-module.exports = { registerUser, loginUser, getCurrentUser };
+async function logoutUser(req, res) {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const decoded = jwt.decode(token);
+    const expirationUnix = decoded?.exp;
+    const currentUnix = Math.floor(Date.now() / 1000);
+    const ttlInSeconds =
+      typeof expirationUnix === "number"
+        ? Math.max(expirationUnix - currentUnix, 1)
+        : 24 * 60 * 60;
+
+    await redis.set(`blacklist:${token}`, "1", "EX", ttlInSeconds);
+
+    res.clearCookie("token");
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+}
+
+module.exports = { registerUser, loginUser, getCurrentUser, logoutUser };

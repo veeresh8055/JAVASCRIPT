@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, loginUser } = require("../controllers/auth.controller");
+const { registerUser, loginUser, logoutUser } = require("../controllers/auth.controller");
 const validators = require('../middlewares/validator.middleware')
 const authController = require('../controllers/auth.controller')
 const authMiddleware =  require('../middlewares/auth.middleware')
@@ -20,7 +20,8 @@ router.post("/login",
 // POST /api/auth/me
 router.get('/me',authMiddleware.authMiddleware ,authController.getCurrentUser)
 
-// 
+// POST /api/auth/logout
+router.post("/logout", authMiddleware.authMiddleware, logoutUser);
 
 
 module.exports = router;
