@@ -20,6 +20,7 @@ router.post("/login",
 // POST /api/auth/me
 router.get('/me',authMiddleware.authMiddleware ,authController.getCurrentUser)
 
+// 
 
 
 module.exports = router;
