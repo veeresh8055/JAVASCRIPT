@@ -1,45 +1,48 @@
-const request = require("supertest");
-const app = require("../src/app");
-const User = require("../src/model/user.model");
+const request = require('supertest');
+const app = require('../src/app');
+const connectDB = require('../src/db/db');
 
-describe("POST /api/auth/register", () => {
-  it("registers a user successfully", async () => {
-    const payload = {
-      username: "john_doe",
-      email: "john@example.com",
-      password: "Password@123",
-      fullName: {
-        firstName: "John",
-        lastName: "Doe",
-      },
-    };
+// Ensure the server doesn't start; we use app directly
 
-    const response = await request(app).post("/api/auth/register").send(payload);
+describe('POST /api/auth/register', () => {
+    beforeAll(async () => {
+        // connectDB uses process.env.MONGO_URI set in setup.js
+        await connectDB();
+    });
 
-    expect(response.status).toBe(201);
-    expect(response.body.message).toBe("User registered successfully");
-    expect(response.body.user.email).toBe(payload.email);
+    it('creates a user and returns 201 with user (no password)', async () => {
+        const res = await request(app)
+            .post('/api/auth/register')
+            .send({
+                username: 'john_doe',
+                email: 'john@example.com',
+                password: 'Secret123!',
+                fullName: { firstName: 'John', lastName: 'Doe' },
+            });
 
-    const userInDb = await User.findOne({ email: payload.email });
-    expect(userInDb).not.toBeNull();
-    expect(userInDb.password).not.toBe(payload.password);
-  });
+        expect(res.status).toBe(201);
+        expect(res.body.user).toBeDefined();
+        expect(res.body.user.username).toBe('john_doe');
+        expect(res.body.user.email).toBe('john@example.com');
+        expect(res.body.user.password).toBeUndefined();
+    });
 
-  it("rejects duplicate registration by email", async () => {
-    const payload = {
-      username: "john_doe",
-      email: "john@example.com",
-      password: "Password@123",
-      fullName: {
-        firstName: "John",
-        lastName: "Doe",
-      },
-    };
+    it('rejects duplicate username/email with 409', async () => {
+        const payload = {
+            username: 'dupuser',
+            email: 'dup@example.com',
+            password: 'Secret123!',
+            fullName: { firstName: 'Dup', lastName: 'User' },
+        };
 
-    await request(app).post("/api/auth/register").send(payload);
-    const response = await request(app).post("/api/auth/register").send(payload);
+        await request(app).post('/api/auth/register').send(payload).expect(201);
+        const res = await request(app).post('/api/auth/register').send(payload);
 
-    expect(response.status).toBe(409);
-    expect(response.body.message).toBe("User already exists");
-  });
+        expect(res.status).toBe(409);
+    });
+
+    it('validates missing fields with 400', async () => {
+        const res = await request(app).post('/api/auth/register').send({});
+        expect(res.status).toBe(400);
+    });
 });

@@ -1,29 +1,30 @@
-const jwt = require("jsonwebtoken");
-const redis = require("../db/redis");
+const userModel = require('../models/user.model');
+const jwt = require('jsonwebtoken');
+
 
 async function authMiddleware(req, res, next) {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+    const token = req.cookies.token;
 
-  try {
-    const blacklistedToken = await redis.get(`blacklist:${token}`);
-    if (blacklistedToken) {
-      return res.status(401).json({ message: "Unauthorized" });
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const decode = jwt.verify(token, process.env.JWT_SECRETE);
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = decode;
+        const user = decoded
 
-    req.user = user;
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+        req.user = user; // attach user info to request
+
+        next();
+
+    }
+    catch (err) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
 }
 
 module.exports = {
-  authMiddleware,
+    authMiddleware
 };

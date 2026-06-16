@@ -1,27 +1,26 @@
-const express = require("express");
-const { registerUser, loginUser, logoutUser } = require("../controllers/auth.controller");
-const validators = require('../middlewares/validator.middleware')
-const authController = require('../controllers/auth.controller')
-const authMiddleware =  require('../middlewares/auth.middleware')
+const express = require('express');
+const validators = require('../middlewares/validator.middleware');
+const authController = require("../controllers/auth.controller")
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
-// POST /api/auth/register
-router.post("/register", 
-    ...validators.registeUserValidation,
-    registerUser);
+// POST /auth/register
+router.post('/register', validators.registerUserValidations, authController.registerUser);
 
-    // POST /api/auth/login
-router.post("/login",
-    ...validators.loginUserValidation,
-    loginUser
-);
+// POST /auth/login
+router.post('/login', validators.loginUserValidations, authController.loginUser);
 
-// POST /api/auth/me
-router.get('/me',authMiddleware.authMiddleware ,authController.getCurrentUser)
+// GET /api/auth/me
+router.get('/me', authMiddleware.authMiddleware, authController.getCurrentUser);
 
-// POST /api/auth/logout
-router.post("/logout", authMiddleware.authMiddleware, logoutUser);
+router.get("/logout", authController.logoutUser);
 
+
+router.get('/users/me/addresses', authMiddleware.authMiddleware, authController.getUserAddresses);
+
+router.post("/users/me/addresses", validators.addUserAddressValidations, authMiddleware.authMiddleware, authController.addUserAddress)
+
+router.delete("/users/me/addresses/:addressId", authMiddleware.authMiddleware, authController.deleteUserAddress)
 
 module.exports = router;

@@ -1,52 +1,62 @@
-const request = require("supertest");
-const bcrypt = require("bcryptjs");
-const app = require("../src/app");
-const User = require("../src/model/user.model");
+const request = require('supertest');
+const app = require('../src/app');
+const connectDB = require('../src/db/db');
+const userModel = require('../src/models/user.model');
+const bcrypt = require('bcryptjs');
 
-describe("POST /api/auth/login", () => {
-  it("logs in successfully with valid credentials", async () => {
-    const plainPassword = "Password@123";
-    const hashedPassword = await bcrypt.hash(plainPassword, 10);
-
-    await User.create({
-      username: "john_doe",
-      email: "john@example.com",
-      password: hashedPassword,
-      fullName: {
-        firstName: "John",
-        lastName: "Doe",
-      },
+describe('POST /api/auth/login', () => {
+    beforeAll(async () => {
+        await connectDB();
     });
 
-    const response = await request(app).post("/api/auth/login").send({
-      email: "john@example.com",
-      password: plainPassword,
+    it('logs in with correct credentials and returns 200 with user and sets cookie', async () => {
+        // Seed a user
+        const password = 'Secret123!';
+        const hash = await bcrypt.hash(password, 10);
+        await userModel.create({
+            username: 'jane_doe',
+            email: 'jane@example.com',
+            password: hash,
+            fullName: { firstName: 'Jane', lastName: 'Doe' },
+        });
+
+        const res = await request(app)
+            .post('/api/auth/login')
+            .send({ email: 'jane@example.com', password });
+
+        expect(res.status).toBe(200);
+        expect(res.body.user).toBeDefined();
+        expect(res.body.user.email).toBe('jane@example.com');
+        // cookie should be set
+        const setCookie = res.headers[ 'set-cookie' ];
+        expect(setCookie).toBeDefined();
+        expect(setCookie.join(';')).toMatch(/token=/);
     });
 
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe("Login successful");
-    expect(response.body.user.email).toBe("john@example.com");
-  });
+    it('rejects wrong password with 401', async () => {
+        const password = 'Secret123!';
+        const hash = await bcrypt.hash(password, 10);
+        await userModel.create({
+            username: 'jack_smith',
+            email: 'jack@example.com',
+            password: hash,
+            fullName: { firstName: 'Jack', lastName: 'Smith' },
+        });
 
-  it("rejects login with wrong password", async () => {
-    const hashedPassword = await bcrypt.hash("Password@123", 10);
+        const res = await request(app)
+            .post('/api/auth/login')
+            .send({ email: 'jack@example.com', password: 'WrongPass1!' });
 
-    await User.create({
-      username: "john_doe",
-      email: "john@example.com",
-      password: hashedPassword,
-      fullName: {
-        firstName: "John",
-        lastName: "Doe",
-      },
+        expect(res.status).toBe(401);
+        expect(res.body.message).toBe('Invalid credentials');
     });
 
-    const response = await request(app).post("/api/auth/login").send({
-      email: "john@example.com",
-      password: "WrongPassword@123",
-    });
+    it('validates missing fields with 400', async () => {
+        const res = await request(app)
+            .post('/api/auth/login')
+            .send({});
 
-    expect(response.status).toBe(401);
-    expect(response.body.message).toBe("Invalid credentials");
-  });
+        expect(res.status).toBe(400);
+        expect(res.body.errors).toBeDefined();
+    });
 });

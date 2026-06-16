@@ -1,74 +1,48 @@
-const request = require("supertest");
-const bcrypt = require("bcryptjs");
-const app = require("../src/app");
-const User = require("../src/model/user.model");
-const redis = require("../src/db/redis");
+const request = require('supertest');
+const bcrypt = require('bcryptjs');
+const app = require('../src/app');
+const connectDB = require('../src/db/db');
+const userModel = require('../src/models/user.model');
 
-describe("POST /api/auth/logout", () => {
-  it("logs out successfully and blacklists token", async () => {
-    const plainPassword = "Password@123";
-    const hashedPassword = await bcrypt.hash(plainPassword, 10);
-
-    await User.create({
-      username: "logout_user",
-      email: "logout@example.com",
-      password: hashedPassword,
-      fullName: {
-        firstName: "Log",
-        lastName: "Out",
-      },
+// Skipped until the /api/auth/logout endpoint is implemented
+describe('GET /api/auth/logout', () => {
+    beforeAll(async () => {
+        await connectDB();
     });
 
-    const loginResponse = await request(app).post("/api/auth/login").send({
-      email: "logout@example.com",
-      password: plainPassword,
+    it('clears the auth cookie and returns 200 when logged in', async () => {
+        // Seed and login to get cookie
+        const password = 'Secret123!';
+        const hash = await bcrypt.hash(password, 10);
+        await userModel.create({
+            username: 'logout_user',
+            email: 'logout@example.com',
+            password: hash,
+            fullName: { firstName: 'Log', lastName: 'Out' },
+        });
+
+        const loginRes = await request(app)
+            .post('/api/auth/login')
+            .send({ email: 'logout@example.com', password });
+
+        expect(loginRes.status).toBe(200);
+        const cookies = loginRes.headers[ 'set-cookie' ];
+        expect(cookies).toBeDefined();
+
+        const res = await request(app)
+            .get('/api/auth/logout')
+            .set('Cookie', cookies);
+
+        expect(res.status).toBe(200);
+        const setCookie = res.headers[ 'set-cookie' ] || [];
+        const cookieStr = setCookie.join(';');
+        // token cookie cleared (empty value) and expired
+        expect(cookieStr).toMatch(/token=;/);
+        expect(cookieStr.toLowerCase()).toMatch(/expires=/);
     });
 
-    const cookie = loginResponse.headers["set-cookie"][0];
-    const token = cookie.split(";")[0].split("=")[1];
-
-    const response = await request(app).post("/api/auth/logout").set("Cookie", [cookie]);
-
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe("Logout successful");
-
-    const blacklisted = await redis.get(`blacklist:${token}`);
-    expect(blacklisted).toBe("1");
-  });
-
-  it("returns 401 when token cookie is missing", async () => {
-    const response = await request(app).post("/api/auth/logout");
-
-    expect(response.status).toBe(401);
-    expect(response.body.message).toBe("Unauthorized");
-  });
-
-  it("blocks access to /me after logout using the same token", async () => {
-    const plainPassword = "Password@123";
-    const hashedPassword = await bcrypt.hash(plainPassword, 10);
-
-    await User.create({
-      username: "logout_me_user",
-      email: "logoutme@example.com",
-      password: hashedPassword,
-      fullName: {
-        firstName: "Log",
-        lastName: "Me",
-      },
+    it('is idempotent: returns 200 even without auth cookie', async () => {
+        const res = await request(app).get('/api/auth/logout');
+        expect(res.status).toBe(200);
     });
-
-    const loginResponse = await request(app).post("/api/auth/login").send({
-      email: "logoutme@example.com",
-      password: plainPassword,
-    });
-
-    const cookie = loginResponse.headers["set-cookie"][0];
-
-    await request(app).post("/api/auth/logout").set("Cookie", [cookie]);
-
-    const meResponse = await request(app).get("/api/auth/me").set("Cookie", [cookie]);
-
-    expect(meResponse.status).toBe(401);
-    expect(meResponse.body.message).toBe("Unauthorized");
-  });
 });

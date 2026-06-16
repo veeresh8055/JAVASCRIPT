@@ -1,56 +1,56 @@
-const request = require("supertest");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const app = require("../src/app");
-const User = require("../src/model/user.model");
+const request = require('supertest');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const app = require('../src/app');
+const connectDB = require('../src/db/db');
+const userModel = require('../src/models/user.model');
 
-describe("GET /api/auth/me", () => {
-  it("returns current user profile for a valid token", async () => {
-    const hashedPassword = await bcrypt.hash("Password@123", 10);
-    const user = await User.create({
-      username: "jane_doe",
-      email: "jane@example.com",
-      password: hashedPassword,
-      fullName: {
-        firstName: "Jane",
-        lastName: "Doe",
-      },
+describe('GET /api/auth/me', () => {
+    beforeAll(async () => {
+        await connectDB();
     });
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-      },
-      process.env.JWT_SECRETE,
-      { expiresIn: "1d" }
-    );
+    it('returns 401 when no auth cookie is provided', async () => {
+        const res = await request(app).get('/api/auth/me');
+        expect(res.status).toBe(401);
+    });
 
-    const response = await request(app)
-      .get("/api/auth/me")
-      .set("Cookie", [`token=${token}`]);
+    it('returns 401 for invalid token in cookie', async () => {
+        const fakeToken = jwt.sign({ id: '000000000000000000000000' }, 'wrong_secret');
+        const res = await request(app)
+            .get('/api/auth/me')
+            .set('Cookie', [ `token=${fakeToken}` ]);
+        expect(res.status).toBe(401);
+    });
 
-    expect(response.status).toBe(200);
-    expect(response.body.user).toBeDefined();
-    expect(response.body.user.email).toBe("jane@example.com");
-    expect(response.body.user.password).toBeUndefined();
-  });
+    it('returns 200 and current user when valid token cookie is present', async () => {
+        // seed a user
+        const password = 'Secret123!';
+        const hash = await bcrypt.hash(password, 10);
+        const user = await userModel.create({
+            username: 'me_user',
+            email: 'me@example.com',
+            password: hash,
+            fullName: { firstName: 'Me', lastName: 'User' },
+        });
 
-  it("returns 401 when token cookie is missing", async () => {
-    const response = await request(app).get("/api/auth/me");
+        // log in to obtain auth cookie
+        const loginRes = await request(app)
+            .post('/api/auth/login')
+            .send({ email: 'me@example.com', password });
+        expect(loginRes.status).toBe(200);
+        const setCookie = loginRes.headers[ 'set-cookie' ];
+        expect(setCookie).toBeDefined();
 
-    expect(response.status).toBe(401);
-    expect(response.body.message).toBe("Unauthorized");
-  });
+        // call /me with cookie
+        const res = await request(app)
+            .get('/api/auth/me')
+            .set('Cookie', setCookie);
 
-  it("returns 401 for an invalid token", async () => {
-    const response = await request(app)
-      .get("/api/auth/me")
-      .set("Cookie", ["token=invalid.token.value"]);
-
-    expect(response.status).toBe(401);
-    expect(response.body.message).toBe("Unauthorized");
-  });
+        expect(res.status).toBe(200);
+        expect(res.body.user).toBeDefined();
+        expect(res.body.user.id).toBe(user._id.toString());
+        expect(res.body.user.email).toBe('me@example.com');
+        expect(res.body.user.username).toBe('me_user');
+    });
 });

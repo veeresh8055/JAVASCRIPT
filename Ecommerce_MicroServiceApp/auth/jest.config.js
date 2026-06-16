@@ -1,5 +1,8 @@
+/** @type {import('jest').Config} */
 module.exports = {
-  testEnvironment: "node",
-  setupFilesAfterEnv: ["<rootDir>/tests/setup.js"],
-  testTimeout: 30000,
+    testEnvironment: 'node',
+    testMatch: [ '**/__test__/**/*.test.js' ],
+    setupFilesAfterEnv: [ '<rootDir>/tests/setup.js' ],
+    collectCoverageFrom: [ 'src/**/*.js', '!src/**/index.js' ],
+    verbose: true,
 };
