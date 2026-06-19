@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        font-family: "Inter";
+        background: #000;
+        overflow: hidden;
+      }
+
+      .video {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -2;
+      }
+
+      .overlay {
+        position: fixed;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: -1;
+      }
+
+      .main {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        color: #fff;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 3rem ;
+      }
+
+      .navbar .logo img {
+        height: 100px;
+      }
+
+      .navbar ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        font-size: 2rem;
+        gap: .3rem;
+        font-weight: 600;
+      }
+      li{
+        cursor: pointer;
+      }
+      .navbar ul li:hover{
+           color: gray;
+           transition: all 1s;
+      }
+
+      .text {
+        margin-top: auto;
+      }
+
+      .text h1 {
+        font-size: 8rem;
+        line-height: 0.95;
+      }
+      span{
+        color: #9BFA00;
+        
+      }
+
+        
+
+      .para {
+        margin-top: 1rem;
+        width: 100%;
+        display: flex;
+         align-items: center;
+         justify-content: space-around;
+        font-size:1.25rem;
+        opacity: 0.9;
+      }
+     
+    </style>
+  </head>
+  <body>
+    <video class="video" autoplay loop muted playsinline>
+      <source src="./assets/download.mp4" type="video/mp4" />
+    </video>
+
+    <div class="overlay"></div>
+
+    <div class="main">
+      <div class="navbar">
+        <div class="logo">
+          <img src="./assets/favicon.ico" alt="Logo" />
+        </div>
+        <ul>
+          <li>Home</li>
+          <li>Contact</li>
+          <li>Login</li>
+          <li>Signup</li>
+        </ul>
+      </div>
+
+      <div class="text">
+        <h1 style="font-family: serif;
+        font-weight: 600;
+        letter-spacing:-4px;">24<span>/</span>7</h1>
+        <h1>HUNTING</h1>
+        <h1><span style="font-family: serif;
+        font-weight: 600;
+        letter-spacing:-4px;">THE</span> NEXT</h1>
+      </div>
+
+      <div class="para">
+        <p>8:00PM GMT+2</p>
+        <p>THE CREATIVE IN SPORTS</p>
+        <p>BASED IN THE INDIA</p>
+      </div>
+    </div>
+
+    <hr>
+   
+  </body>
+</html>
