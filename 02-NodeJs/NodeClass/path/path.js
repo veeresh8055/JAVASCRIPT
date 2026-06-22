@@ -4,6 +4,8 @@ const path = require('path')
 __dirname
 // curr file name
 __filename
+console.log(__dirname)// absolute path of directory 
+console.log(__filename) // absolute path of the current file name 
 
 console.log(path.basename(__dirname))
 console.log(path.basename(__filename))
