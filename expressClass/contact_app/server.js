@@ -1,11 +1,14 @@
 const express = require("express");
 const { dbConnection } = require("./config/db.js");
-const {model } = require('./model/contactSchema.js')
-// dotenv
+const contactModel = require('./model/contactSchema.js')
 const env = require("dotenv");
-env.config();
+const router = require("./routes/contactRouter.js");
 
+env.config();
 const app = express();
+app.use(express.json())
+//router 
+app.use('/contact' , router)
 
 dbConnection();
 app.get("/", (req, res) => {

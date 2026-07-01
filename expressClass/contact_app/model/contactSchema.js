@@ -13,8 +13,6 @@ const contactSchema = new Schema({
     phoneNo :{
         type:Number,
         required:true,
-        minLength:10,
-        maxLength:10
     },
     location:{
         type:String,
