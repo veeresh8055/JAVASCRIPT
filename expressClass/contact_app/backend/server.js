@@ -3,12 +3,14 @@ const { dbConnection } = require("./config/db.js");
 const contactModel = require('./model/contactSchema.js')
 const env = require("dotenv");
 const router = require("./routes/contactRouter.js");
+const cors = require('cors')
 
 env.config();
 const app = express();
 app.use(express.json())
+app.use(cors())
 //router 
-app.use('/contact' , router)
+app.use('/contacts' , router)
 
 dbConnection();
 app.get("/", (req, res) => {

@@ -9,13 +9,13 @@ const {
 
 const router = Router();
 
-router.post("/create", createContact);
+router.post("/new", createContact);
 
-router.get("/allContacts", allContacts);
+router.get("/", allContacts);
 
-router.get("/singleContact/:id", singleContact);
+router.get("/:id", singleContact);
 
-router.put("/update/:id", updateContact);
+router.put("/:id", updateContact);
 
 router.delete('/:id' , deleteContact )
 

@@ -3,11 +3,12 @@ const contactModel = require("../model/contactSchema.js");
 // ~~~Create Contact~~~
 async function createContact(req, res) {
   try {
-    let { fname, lname, phoneNo, location } = req.body;
+    let { fname, lname, phoneNo, address, location = "phone" } = req.body;
     let newContact = await contactModel.create({
       fname,
       lname,
       phoneNo,
+      address,
       location,
     });
     res.status(201).json({
@@ -93,7 +94,7 @@ async function deleteContact(req, res) {
 // ~~~Update Contact~~~
 async function updateContact(req, res) {
   try {
-     let contact = await contactModel.findByIdAndUpdate(req.params.id, { $set: req.body });
+     let contact = await contactModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true, runValidators: true });
      res.status(202).json({
       success: true,
       message: "Updated successfully ",

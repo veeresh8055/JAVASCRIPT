@@ -18,7 +18,7 @@ let postSchema = Schema({
     author:{
         type:String,
         required:true,
-        minLength:10
+        minLength:3
     }
 })
 

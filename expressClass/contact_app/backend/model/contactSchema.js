@@ -14,10 +14,14 @@ const contactSchema = new Schema({
         type:Number,
         required:true,
     },
+    address:{
+        type:String,
+        required:true
+    },
     location:{
         type:String,
-        required:true,
-        enum:["sim","phone","email"]
+        enum:["sim","phone","email"],
+        default:"phone"
     }
 })
 
