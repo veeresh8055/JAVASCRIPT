@@ -1,26 +1,32 @@
-const {Router} = require('express')
-const media  = require('../config/multer');
-const { createPost } = require('../controllers/postController');
+const { Router } = require('express');
+const media = require('../config/multer');
+const {
+    createPost,
+    getAllPosts,
+    getSinglePost,
+    updatePost,
+    deletePost
+} = require('../controllers/postController');
+const { requireAuth } = require('../middleware/auth');
 
-const router = Router()
+const router = Router();
 
-//Create post 
-router.post('/post' , media.single("post") ,  createPost) 
+// Protect every post route so only logged-in users can access them.
+router.use(requireAuth);
 
-// //all post 
-// router.get('/post')
+// Create a new post with one or more uploaded files.
+router.post('/post', media.array("media", 10), createPost);
 
+// Get all posts that belong to the logged-in user.
+router.get('/post', getAllPosts);
 
-// // single post 
-// router.get('/post/:id')
+// Get one post by id, but only if it belongs to the logged-in user.
+router.get('/post/:id', getSinglePost);
 
+// Update a post by id, including optional replacement media.
+router.put('/post/:id', media.array("media", 10), updatePost);
 
-// // update post 
-// router.put('/post/:id')
+// Delete a post by id, but only if it belongs to the logged-in user.
+router.delete('/post/:id', deletePost);
 
-
-// // delete post
-// router.delete('/post/:id')
-
-
-module.exports = router ; 
+module.exports = router;

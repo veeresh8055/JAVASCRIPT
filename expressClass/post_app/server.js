@@ -1,27 +1,28 @@
-const express = require('express')
-const { connectDb } = require('./config/db')
-const postRouter = require('./routes/postRoutes.js')
-const userRouter = require('./routes/userRoutes.js')
+require('dotenv').config();
 
+const express = require('express');
+const { connectDb } = require('./config/db');
+const postRouter = require('./routes/postRoutes.js');
+const userRouter = require('./routes/userRoutes.js');
 
-require('dotenv').config()
+const app = express();
+const port = process.env.PORT || 3000;
 
-const app = express()
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use('/public', express.static('public'));
 
-app.use("/public" ,  express.static('public'))
+app.use('/postapi', postRouter);
+app.use('/auth', userRouter);
 
-app.use('/postapi' , postRouter)
-app.use('/auth' ,userRouter  )
+const startServer = async () => {
+    await connectDb();
 
-app.use(express.json())
-connectDb()
+    app.listen(port, (err) => {
+        if (err) throw err;
+        console.log('server started at port : ' + port);
+    });
+};
 
-
-app.listen(process.env.PORT , (err) => {
-    if (err) throw err;
-    console.log('server started at port :  ' + process.env.PORT)
-})
-
+startServer();
